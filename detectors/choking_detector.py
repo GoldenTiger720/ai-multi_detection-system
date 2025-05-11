@@ -5,7 +5,7 @@ class ChokingDetector(BaseDetector):
     
     def __init__(self):
         """Initialize the choking detector"""
-        super().__init__(model_path="./models/fall.pt", name="Choking Detection")
+        super().__init__(model_path="./models/choking.pt", name="Choking Detection")
     
     def get_description(self):
         """Return a description of the detector"""
