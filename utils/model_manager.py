@@ -31,7 +31,7 @@ class ModelManager:
             "violence": {
                 "conf_threshold": 0.35,
                 "iou_threshold": 0.35,
-                "image_size": 720
+                "image_size": 736
             },
             "choking": {
                 "conf_threshold": 0.05,
