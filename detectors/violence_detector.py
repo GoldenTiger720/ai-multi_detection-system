@@ -5,7 +5,7 @@ class ViolenceDetector(BaseDetector):
     
     def __init__(self):
         """Initialize the violence detector"""
-        super().__init__(model_path="./models/fall.pt", name="Violence Detection")
+        super().__init__(model_path="./models/vilonce1.pt", name="Violence Detection")
     
     def get_description(self):
         """Return a description of the detector"""
