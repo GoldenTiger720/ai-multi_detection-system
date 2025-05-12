@@ -1,6 +1,6 @@
 # Multi-Detection AI System
 
-This application uses YOLOv8 models to perform multiple types of detection tasks including:
+This application uses YOLOv11 models to perform multiple types of detection tasks including:
 
 - Fire and smoke detection
 - Fall detection
@@ -12,6 +12,7 @@ This application uses YOLOv8 models to perform multiple types of detection tasks
 ```
 project/
 ├── app.py                     # Main application file
+├── run_with_reload.py         # When the code change, server will reload automatically.
 ├── detectors/                 # Detector modules folder
 │   ├── __init__.py            # Makes detectors a Python package
 │   ├── base_detector.py       # Abstract base class for all detectors
@@ -20,14 +21,10 @@ project/
 │   ├── violence_detector.py   # Violence detection module
 │   └── choking_detector.py    # Choking detection module
 ├── models/                    # Models folder
-│   ├── fire_smoke/            # Fire and smoke model files
-│   │   └── best.pt            # (existing model)
-│   ├── fall/                  # Fall detection model files
-│   │   └── best.pt            # (new model to be added)
-│   ├── violence/              # Violence detection model files
-│   │   └── best.pt            # (new model to be added)
-│   └── choking/               # Choking detection model files
-│       └── best.pt            # (new model to be added)
+│   ├── fire_smoke.pt          # Fire and smoke model files
+│   ├── fall.pt                # Fall detection model files
+│   ├── violence1.pt           # Violence detection model files
+│   └── choking.pt             # Choking detection model files
 ├── input/                     # Example images folder
 └── utils/                     # Utility functions
     ├── __init__.py
@@ -43,12 +40,12 @@ project/
    ```
 
 2. **Prepare model files**:
-   Place your trained YOLOv8 models in the respective model folders:
+   Place your trained YOLOv11 models in the respective model folders:
 
-   - `models/fire_smoke/best.pt` (already available)
-   - `models/fall/best.pt`
-   - `models/violence/best.pt`
-   - `models/choking/best.pt`
+   - `models/fire_smoke.pt` (already available)
+   - `models/fall.pt`
+   - `models/violence1.pt`
+   - `models/choking.pt`
 
    You can train your own models or use pre-trained models for each detection type.
 
@@ -60,7 +57,7 @@ project/
 Start the application with:
 
 ```
-python app.py
+python run_with_reload app.py
 ```
 
 The web interface will be accessible in your browser at `http://127.0.0.1:7860/`.
@@ -91,7 +88,7 @@ The application has three tabs:
 To add a new detection type:
 
 1. Create a new detector class in the `detectors/` folder by subclassing `BaseDetector`
-2. Create a model folder in `models/` and add your trained YOLOv8 model
+2. Create a model folder in `models/` and add your trained YOLOv11 model
 3. Update the `detectors/__init__.py` file to include your new detector
 4. The system will automatically include your new detector in the UI
 
