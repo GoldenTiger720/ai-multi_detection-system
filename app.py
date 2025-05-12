@@ -17,6 +17,7 @@ def predict_image(img, detector_key, conf_threshold, iou_threshold, image_size):
 def predict_video(video_path, detector_key, conf_threshold, iou_threshold, image_size):
     """Generator function that processes video frames and yields them in real-time."""
     detector = model_manager.get_detector(detector_key)
+    print(f"Processing video with detector: {detector.name}, conf: {conf_threshold}, iou: {iou_threshold}, size: {image_size}", detector_key)
     
     try:
         # Status indicators
@@ -44,7 +45,7 @@ def predict_video(video_path, detector_key, conf_threshold, iou_threshold, image
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             
             # Run prediction on the frame
-            annotated_frame, _ = detector.predict_video_frame(frame_rgb, conf_threshold, iou_threshold, image_size)
+            annotated_frame, _ = detector.predict_video_frame(frame, conf_threshold, iou_threshold, image_size)
             
             # Calculate FPS every second
             current_time = time.time()

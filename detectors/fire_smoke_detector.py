@@ -17,5 +17,5 @@ class FireSmokeDetector(BaseDetector):
             "name": self.name,
             "path": self.model_path,
             "classes": self.class_names,
-            "type": "YOLOv8 Object Detection"
+            "type": "YOLOv11 Object Detection"
         }
