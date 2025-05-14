@@ -893,4 +893,9 @@ demo = create_demo()
 
 if __name__ == "__main__":
     # For Hugging Face Spaces compatibility
-    demo.launch(share=True)
+    demo.launch(
+        share=False,
+        server_name="0.0.0.0",  # Allow external access
+        server_port=7860,
+        inbrowser=False  # Don't auto-open browser
+    )
