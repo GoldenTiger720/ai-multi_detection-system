@@ -11,89 +11,215 @@ This application uses YOLOv11 models to perform multiple types of detection task
 
 ```
 project/
-├── app.py                     # Main application file
-├── run_with_reload.py         # When the code change, server will reload automatically.
-├── detectors/                 # Detector modules folder
+├── app.py                     # Main application entry point
+├── run_with_reload.py         # Auto-reload server when code changes
+├── processing/                # Processing modules
+│   ├── __init__.py
+│   ├── global_state.py        # Global state management
+│   ├── image_processor.py     # Static image processing
+│   ├── video_processor.py     # Video processing with detection filtering
+│   └── webcam_processor.py    # Real-time webcam processing
+├── ui/                        # User interface modules
+│   ├── __init__.py
+│   ├── main_interface.py      # Main demo interface
+│   ├── static_image_tab.py    # Static image tab
+│   ├── video_upload_tab.py    # Video upload tab
+│   ├── webcam_tab.py          # Webcam/RTSP tab
+│   └── training_tab.py        # Model training tab
+├── training/                  # Training modules
+│   ├── __init__.py
+│   ├── dataset_manager.py     # Dataset creation and management
+│   └── trainer.py             # Model training functionality
+├── detectors/                 # Detector modules
 │   ├── __init__.py            # Makes detectors a Python package
 │   ├── base_detector.py       # Abstract base class for all detectors
 │   ├── fire_smoke_detector.py # Fire and smoke detection module
 │   ├── fall_detector.py       # Fall detection module
 │   ├── violence_detector.py   # Violence detection module
 │   └── choking_detector.py    # Choking detection module
-├── models/                    # Models folder
-│   ├── fire_smoke.pt          # Fire and smoke model files
-│   ├── fall.pt                # Fall detection model files
-│   ├── violence1.pt           # Violence detection model files
-│   └── choking.pt             # Choking detection model files
+├── models/                    # Model files
+│   ├── fire_smoke.pt          # Fire and smoke model
+│   ├── fall.pt                # Fall detection model
+│   ├── vilonce1.pt            # Violence detection model
+│   └── choking.pt             # Choking detection model
 ├── input/                     # Example images folder
+├── datasets/                  # Training datasets folder (auto-created)
+├── training_runs/             # Training output folder (auto-created)
 └── utils/                     # Utility functions
     ├── __init__.py
     └── model_manager.py       # Handles model loading and switching
 ```
 
+## Key Features
+
+**Modular Architecture**
+
+- Processing Layer: Separate modules for image, video, and webcam processing
+- UI Layer: Individual components for each tab interface
+- Training Layer: Complete training pipeline with dataset management
+- Global State Management: Centralized state handling for real-time operations
+
+## Enhanced Violence Detection
+
+- Smart filtering: Only logs detections when "violence" is actually detected
+- Reduces false positives in detection logs
+- Provides more meaningful detection results
+- Training Capabilities
+- Create and manage datasets
+- Upload training images
+- Configure training parameters
+- Start training with custom models
+
 ## Setup Instructions
 
-1. **Install dependencies**:
+**Install dependencies:**
 
-   ```
-   pip install ultralytics gradio pillow opencv-python
-   ```
+```
+pip install ultralytics gradio pillow opencv-python pandas pyyaml
+```
 
-2. **Prepare model files**:
-   Place your trained YOLOv11 models in the respective model folders:
+## Prepare model files: Place your trained YOLOv11 models in the models/ folder:
 
-   - `models/fire_smoke.pt` (already available)
-   - `models/fall.pt`
-   - `models/violence1.pt`
-   - `models/choking.pt`
+```
+models/
+├── fire_smoke.pt
+├── fall.pt
+├── vilonce1.pt
+└── choking.pt
+```
 
-   You can train your own models or use pre-trained models for each detection type.
-
-3. **Add example images**:
-   Place some example images in the `input/` folder for the interface examples.
-
-## Running the Application
-
+Add example images (optional): Place some example images in the input/ folder for the interface examples.
+Running the Application
 Start the application with:
 
 ```
-python run_with_reload app.py
+python run_with_reload.py app.py
+
 ```
 
-The web interface will be accessible in your browser at `http://127.0.0.1:7860/`.
+**Or run directly:**
+
+```
+python app.py
+
+```
+
+The web interface will be accessible in your browser at:
+
+```
+http://127.0.0.1:7860/
+```
+
+## Using the Application
+
+**Web Interface**
+The application provides a user-friendly web interface for easy interaction. You can upload images, videos, or use your webcam for real-time detection.
+The interface is built using Gradio, allowing for quick and responsive interactions.
+**Real-time Processing**
+The application supports real-time processing using your webcam or RTSP streams. You can adjust parameters like confidence threshold and IoU threshold for optimal performance.
+**Training Capabilities**
+The application allows you to create and manage training datasets. You can upload images, configure the dataset, and start training with custom parameters.
+The training process is fully integrated into the application, making it easy to train new models based on your specific needs.
 
 ## Using the Interface
 
-The application has three tabs:
+**The application has four main tabs:**
 
-1. **Static Image**: Upload an image to perform detection
+1. **Static Image**
 
-   - Select the detection type from the dropdown
-   - Adjust confidence threshold, IoU threshold, and image size
-   - Click "Run Inference" to process the image
+- Upload an image to perform detection
+- Select the detection type from the dropdown
+- Adjust confidence threshold, IoU threshold, and image size
+- Click "Run Inference" to process the image
 
-2. **Video Upload**: Upload a video file to process
+2. **Video Upload**
 
-   - Select the detection type
-   - Configure detection parameters
-   - Click "Process Video" to analyze the video frame by frame
+- Upload a video file to process frame by frame
+- Real-time processing with live frame display
+- Detection results table with timestamps
+- Note: Violence detection only logs actual violence detections
 
-3. **RTSP (Real-time)**: Use your webcam for real-time detection
-   - Select the detection type
-   - Adjust detection parameters
-   - The system will automatically process the webcam feed
+3. **RTSP (Real-time)**
 
-## Adding New Detection Types
+- Use your webcam for real-time detection
+- Live streaming with detection overlay
+- Adjustable parameters for real-time tuning
+- Performance indicators (FPS, status)
 
-To add a new detection type:
+4. **Training**
 
-1. Create a new detector class in the `detectors/` folder by subclassing `BaseDetector`
-2. Create a model folder in `models/` and add your trained YOLOv11 model
-3. Update the `detectors/__init__.py` file to include your new detector
-4. The system will automatically include your new detector in the UI
+- Create and manage training datasets
+- Upload images for training
+- Edit dataset configuration (data.yaml)
+- Configure and start training with custom parameters
+- Choose from available pre-trained models
 
-## Performance Notes
+## Detection Types
 
-- Smaller image sizes will provide faster processing but may reduce detection accuracy
-- Adjust the confidence threshold to reduce false positives/negatives
-- Real-time processing performance depends on your hardware capabilities
+- Fire and Smoke Detection
+- Detects fire and smoke in images/videos
+- Optimized for early fire detection
+- Fall Detection
+
+Create detector class:
+
+# detectors/your_detector.py
+
+```
+from detectors.base_detector import BaseDetector
+
+class YourDetector(BaseDetector):
+    def __init__(self):
+        super().__init__(model_path="./models/your_model.pt", name="Your Detection")
+
+    def get_description(self):
+        return "Description of your detector"
+
+    def get_model_info(self):
+        return {
+            "name": self.name,
+            "path": self.model_path,
+            "classes": self.class_names,
+            "type": "YOLOv11 Object Detection"
+        }
+```
+
+Add model file: Place your trained model in:
+`models/your_model.pt`
+
+- Update imports: Add your detector to detectors/**init**.py:
+
+```
+from detectors.your_detector import YourDetector
+
+__all__ = [
+    'FireSmokeDetector',
+    'FallDetector',
+    'ViolenceDetector',
+    'ChokingDetector',
+    'YourDetector'  # Add your detector here
+]
+```
+
+- Update model manager: Add your detector to utils/model_manager.py:
+
+```
+from detectors import YourDetector
+
+self.detectors = {
+    "fire_smoke": FireSmokeDetector(),
+    "fall": FallDetector(),
+    "violence": ViolenceDetector(),
+    "choking": ChokingDetector(),
+    "your_detector": YourDetector()  # Add your detector here
+}
+```
+
+## Dependencies
+
+- ultralytics: YOLO model framework
+- gradio: Web interface framework
+- opencv-python: Image and video processing
+- pillow: Image manipulation
+- pandas: Data handling for results
+- pyyaml: YAML configuration handling
