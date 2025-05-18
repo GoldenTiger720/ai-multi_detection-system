@@ -29,10 +29,6 @@ def main():
     
     # Launch the demo with authentication
     demo.launch(
-        share=False,
-        server_name="0.0.0.0",  # Allow external access
-        server_port=7860,
-        inbrowser=False,  # Don't auto-open browser
         auth=authenticate,  # Add authentication function
         auth_message="Please enter your credentials to access the Multi-Detection AI System"
     )
