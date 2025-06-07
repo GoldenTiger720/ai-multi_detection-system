@@ -231,9 +231,6 @@ class VideoProcessor:
                     
                     # Small delay to allow UI to update
                     time.sleep(0.01)
-                    
-                    if frame_count % 100 == 0:
-                        logger.info(f"Processed {frame_count}/{total_frames} frames ({progress_percent}%)")
                         
                 except socket.error as e:
                     # Handle network errors gracefully
