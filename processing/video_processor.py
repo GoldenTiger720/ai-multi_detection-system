@@ -88,8 +88,7 @@ class VideoProcessor:
             if os.name == 'nt':  # For Windows
                 # Try with the DIVX codec (H.264 variant available on Windows)
                 fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-            else:  # For Linux/Mac
-                # Try with the H264 codec directly
+            else:
                 fourcc = cv2.VideoWriter_fourcc(*'avc1')
                 
             self.current_output_path = os.path.join(
@@ -351,8 +350,8 @@ class VideoProcessor:
                 '-preset', 'fast',               # Encoding speed/compression tradeoff
                 '-crf', '23',                    # Quality (lower = better)
                 '-pix_fmt', 'yuv420p',           # Pixel format for compatibility
-                '-y',                           # Overwrite output file if it exists
-                web_path                        # Output file
+                '-y',                            # Overwrite output file if it exists
+                web_path                         # Output file
             ]
             
             result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
